@@ -3,8 +3,8 @@ package blackdevs.vishnu.model;
 import java.io.Serializable;
 import java.util.ArrayList;
 /**
- * Data Structure for generating the ui Back end Matrix
- * @author Vishnu Satis
+ * Data Structure for generating the UI Back end Matrix
+ * @author vishnu.satis
  *
  */
 public class ColorList implements Serializable{

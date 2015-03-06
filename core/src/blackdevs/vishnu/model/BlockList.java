@@ -2,9 +2,18 @@ package blackdevs.vishnu.model;
 
 import java.util.ArrayList;
 
-import blackdevs.vishnu.Colors.Block;
+import blackdevs.vishnu.model.Block;
 
+/**
+ * List of Blocks
+ * 
+ * @author vishnu.satis, eldo.joseph
+ */
 public class BlockList {
+	public BlockList() {
+
+	}
+	
 	private ArrayList<Block> blockList = new ArrayList<>();
 
 	public ArrayList<Block> getBlockList() {
@@ -13,10 +22,6 @@ public class BlockList {
 
 	public void setBlockList(ArrayList<Block> blockList) {
 		this.blockList = blockList;
-	}
-
-	public BlockList() {
-
 	}
 
 	public BlockList(ArrayList<Block> blockList) {

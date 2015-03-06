@@ -15,7 +15,7 @@ import com.badlogic.gdx.Gdx;
 
 /**
  * 
- * @author KH1888
+ * @author vishnu.satis
  * 
  */
 public class BackEndFrameWork implements Serializable{
@@ -35,12 +35,12 @@ public class BackEndFrameWork implements Serializable{
 		createNextColorCombo();
 		//printUiColorCombo();
 	}
-	public ArrayList<ColorList> getUiColorCombo() {
+	public ArrayList<ColorList> getColorMatrix() {
 		return colorMatrix;
 	}
 
-	public void setUiColorCombo(ArrayList<ColorList> uiColorCombo) {
-		this.colorMatrix = uiColorCombo;
+	public void setColorMatrix(ArrayList<ColorList> colorMatrix) {
+		this.colorMatrix = colorMatrix;
 	}
 
 	/**

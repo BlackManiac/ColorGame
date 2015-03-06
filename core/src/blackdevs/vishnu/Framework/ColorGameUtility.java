@@ -8,7 +8,7 @@ import blackdevs.vishnu.Constants.StringMap;
 /**
  * Create and returns the next BackendMatrix
  * 
- * @author Vishnu Satis
+ * @author vishnu.satis
  * 
  */
 public class ColorGameUtility {

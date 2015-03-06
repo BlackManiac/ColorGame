@@ -4,11 +4,12 @@ import java.util.ArrayList;
 
 import blackdevs.vishnu.Constants.ImageMap;
 import blackdevs.vishnu.Framework.Logger;
-
 import blackdevs.vishnu.model.BlockList;
+import blackdevs.vishnu.model.ColorList;
 import blackdevs.vishnu.uiApis.GameAnimation;
 import blackdevs.vishnu.uiApis.GameDraw;
-import blackdevs.vishnu.uiApis.F_GameUiController;
+import blackdevs.vishnu.uiApis.GameInstance;
+import blackdevs.vishnu.uiApis.GameInstanceController;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
@@ -16,6 +17,11 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 
+/**
+ * GAME
+ * 
+ * @author vishnu.satis, eldo.joseph
+ */
 public class ColorGame extends ApplicationAdapter {
 
 	public static SpriteBatch batch;
@@ -32,15 +38,24 @@ public class ColorGame extends ApplicationAdapter {
 	public static Vector2 upperRight;
 	public static Vector2 lowerLeft;
 	public static Vector2 lowerRight;
+	public static boolean areMatricesSynced;
 
-	F_GameUiController uiController;
-	public static ArrayList<BlockList> uiMatrix = new ArrayList<>();
+	private GameInstance gameInstance;
+	public static GameInstanceController controller;
+	public static ArrayList<BlockList> f_blockMatrix;
+	public static ArrayList<ColorList> b_colorMatrix;
 
+	/**
+	 * CREATE. Runs in the beginning
+	 */
 	@Override
 	public void create() {
 		initializeCoordinates();
-		uiController = new F_GameUiController();
-		uiMatrix = uiController.getBlockList();
+		gameInstance = new GameInstance();
+		controller = new GameInstanceController();
+		f_blockMatrix = gameInstance.getBlockMatrix();
+		b_colorMatrix = gameInstance.getColorMatrix();
+		areMatricesSynced = true;
 		batch = new SpriteBatch();
 		GameAnimation inputProcessor = new GameAnimation();
 		Gdx.input.setInputProcessor(inputProcessor);
