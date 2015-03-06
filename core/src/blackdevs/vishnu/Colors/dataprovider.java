@@ -10,24 +10,37 @@ import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.io.Serializable;
 
+import blackdevs.vishnu.Framework.Logger;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 
-public class dataprovider implements Serializable {
-	/**
-	 * 
-	 */
+/**
+ * Class is used for data tranfer B/W Game and file system
+ * 
+ * @author Vishnu Satis
+ * 
+ */
+public class Dataprovider implements Serializable {
 	private static final long serialVersionUID = 1L;
-	public static log logger = new log();
 
-	public static void saveData(AppInfo appinfo, String filename) {
+	/**
+	 * Saving data to file
+	 * 
+	 * @param obj
+	 *            Data obj to be saved
+	 * @param fileName
+	 *            fileName to which dat is saved
+	 */
+	public static void saveData(Object obj, String fileName) {
 
-		FileHandle file = Gdx.files.local(filename);
+		FileHandle file = Gdx.files.local(fileName);
 		OutputStream out = null;
 		try {
-			file.writeBytes(serialize(appinfo), false);
+			file.writeBytes(serialize(obj), false);
 		} catch (Exception ex) {
-			logger.logObject("saveData", "dataprovider.java");
+			Logger.error("Data Saving Exeception Occured ---->"
+					+ ex.toString());
 		} finally {
 			if (out != null)
 				try {
@@ -35,23 +48,37 @@ public class dataprovider implements Serializable {
 				} catch (Exception ex) {
 				}
 		}
-		System.out.println("Saving appinfo");
+		Logger.DataLog("Data Saved to file ----> " + fileName);
 	}
 
-	public static AppInfo readData(String filename) {
-		AppInfo appinfo = null;
-		FileHandle file = Gdx.files.local(filename);
+	/**
+	 * Reading data from file
+	 * 
+	 * @param fileName
+	 *            file to which data is to be written
+	 * @return
+	 */
+	public static Object readData(String fileName) {
+		Object obj = null;
+		FileHandle file = Gdx.files.local(fileName);
 		try {
-			appinfo = (AppInfo) deserialize(file.readBytes());
-			return appinfo;
+			obj = (Object) deserialize(file.readBytes());
+			return obj;
 		} catch (Exception e) {
-			logger.logObject("readData", "dataprovider.java");
+			Logger.error("Data Saving Exeception Occured ---->"
+					+ e.toString());
 			e.printStackTrace();
 		}
-		System.out.println("Reading appinfo");
+		Logger.DataLog("Data Retrieved to file ----> " + fileName);
 		return null;
 	}
 
+	/**
+	 * Serializing the Data obj before Saving
+	 * 
+	 * @param byteArray
+	 * @return
+	 */
 	public static Object deserialize(byte[] byteArray) {
 		ByteArrayInputStream bis = new ByteArrayInputStream(byteArray);
 		ObjectInput in = null;
@@ -67,17 +94,25 @@ public class dataprovider implements Serializable {
 			try {
 				bis.close();
 			} catch (IOException ex) {
-				logger.logObject("deserialize", "dataprovider.java");
+				Logger.error("Error While deserializing File Data --> "
+						+ ex.toString());
 			}
 			try {
 				if (in != null)
 					in.close();
 			} catch (IOException ex) {
-				logger.logObject("deserialize", "dataprovider.java");
+				Logger.error("Error While deserializing File Data --> "
+						+ ex.toString());
 			}
 		}
 	}
 
+	/**
+	 * Deserializing the data Obj before Saving
+	 * 
+	 * @param object
+	 * @return
+	 */
 	public static <T> byte[] serialize(T object) {
 
 		ByteArrayOutputStream bos = new ByteArrayOutputStream();
@@ -98,14 +133,18 @@ public class dataprovider implements Serializable {
 				if (out != null)
 					out.close();
 			} catch (IOException ex) {
-				logger.logObject("serialize", "dataprovider.java");
+				Logger.error("Error While serializing File Data --> "
+						+ ex.toString());
 			}
 			try {
 				bos.close();
 			} catch (IOException ex) {
-				logger.logObject("serialize", "dataprovider.java");
+				Logger.error("Error While serializing File Data --> "
+						+ ex.toString());
 			}
 		}
 
 	}
+	
+	
 }
