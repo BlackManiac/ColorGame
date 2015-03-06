@@ -7,7 +7,7 @@ import blackdevs.vishnu.Colors.ColorGame;
 public class DesktopLauncher {
 	public static void main(String[] arg) {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
-		config.width = 500;
+		config.width = 300;
 		config.height = 500;
 		new LwjglApplication(new ColorGame(), config);
 	}

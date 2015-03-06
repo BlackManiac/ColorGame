@@ -5,15 +5,41 @@ import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
 
-public class Player {
+public class Block {
 
-	Vector2 position;
-	String textureLoc;
-	Texture texture;
+	private Vector2 position;
+	private String textureLocation;
+	private Texture texture;
+	private float textureWidth;
+	private float textureHieght;
 
-	public Player(Vector2 position, String textureLoc) {
+	public Block(Vector2 position, String textureLoc, float textureWidth,
+			float textureHieght) {
 		this.position = position;
 		this.texture = new Texture(Gdx.files.internal(textureLoc));
+		this.textureWidth = textureWidth;
+		this.textureHieght = textureHieght;
+	}
+
+	public void setTextureSize(float textureWidth, float textureHeight) {
+		this.textureWidth = textureWidth;
+		this.textureHieght = textureHeight;
+	}
+
+	public float getTextureWidth() {
+		return this.textureWidth;
+	}
+
+	public float getTextureHieght() {
+		return this.textureHieght;
+	}
+
+	public String getTextureLocation() {
+		return textureLocation;
+	}
+
+	public void setTextureLocation(String textureLocation) {
+		this.textureLocation = textureLocation;
 	}
 
 	public Texture getTexture() {
@@ -45,13 +71,13 @@ public class Player {
 		if (Gdx.input.isKeyPressed(Keys.D)) {
 			position.x += 1f;
 		}
-		if(Gdx.input.isTouched(0)){
-			if(Gdx.input.getDeltaX() != 0){
+		if (Gdx.input.isTouched(0)) {
+			if (Gdx.input.getDeltaX() != 0) {
 				position.x = position.x + Gdx.input.getDeltaX();
-			}
-			else if(Gdx.input.getDeltaY() != 0){
+			} else if (Gdx.input.getDeltaY() != 0) {
 				position.y = position.y - Gdx.input.getDeltaY();
 			}
 		}
+		
 	}
 }
