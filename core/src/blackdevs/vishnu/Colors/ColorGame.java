@@ -4,21 +4,18 @@ import java.util.ArrayList;
 
 import blackdevs.vishnu.Constants.ImageMap;
 import blackdevs.vishnu.Framework.Logger;
+import blackdevs.vishnu.Screens.MainMenuScreen;
 
 import blackdevs.vishnu.model.BlockList;
-import blackdevs.vishnu.uiApis.GameAnimation;
-import blackdevs.vishnu.uiApis.GameDraw;
 import blackdevs.vishnu.uiApis.F_GameUiController;
 
-import com.badlogic.gdx.ApplicationAdapter;
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 
-public class ColorGame extends ApplicationAdapter {
+public class ColorGame extends Game {
 
-	public static SpriteBatch batch;
 	public static float blockWidth;
 	public static float blockSpacing;
 	public static float blockStartY;
@@ -32,7 +29,7 @@ public class ColorGame extends ApplicationAdapter {
 	public static Vector2 upperRight;
 	public static Vector2 lowerLeft;
 	public static Vector2 lowerRight;
-
+	public static SpriteBatch batch;
 	F_GameUiController uiController;
 	public static ArrayList<BlockList> uiMatrix = new ArrayList<>();
 
@@ -41,20 +38,14 @@ public class ColorGame extends ApplicationAdapter {
 		initializeCoordinates();
 		uiController = new F_GameUiController();
 		uiMatrix = uiController.getBlockList();
+		//Gdx.input.setInputProcessor(inputProcessor);
 		batch = new SpriteBatch();
-		GameAnimation inputProcessor = new GameAnimation();
-		Gdx.input.setInputProcessor(inputProcessor);
+		this.setScreen(new MainMenuScreen(this));
 	}
 
 	@Override
 	public void render() {
-		Gdx.gl.glClearColor(1, 0, 1, 0);
-		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-		if (Gdx.input.isTouched()) {
-		}
-		batch.begin();
-		GameDraw.drawBlocks();
-		batch.end();
+		super.render();
 	}
 
 	private void initializeCoordinates() {
@@ -82,15 +73,20 @@ public class ColorGame extends ApplicationAdapter {
 		upperLeft = new Vector2(blockStartX, blockStartY);
 		upperRight = new Vector2(blockStartX + matrixSize, blockStartY);
 		lowerLeft = new Vector2(blockStartX, blockStartY + matrixSize);
-		lowerRight = new Vector2(blockStartX + matrixSize, blockStartY + matrixSize);
+		lowerRight = new Vector2(blockStartX + matrixSize, blockStartY
+				+ matrixSize);
 
-		Logger.Frontlog("upperLeft.x = " + upperLeft.x + " "
-				+ "upperLeft.y = " + upperLeft.y);
+		Logger.Frontlog("upperLeft.x = " + upperLeft.x + " " + "upperLeft.y = "
+				+ upperLeft.y);
 		Logger.Frontlog("upperRight.x = " + upperRight.x + " "
 				+ "upperRight.y = " + upperRight.y);
-		Logger.Frontlog("lowerLeft.x = " + lowerLeft.x + " "
-				+ "lowerLeft.y = " + lowerLeft.y);
+		Logger.Frontlog("lowerLeft.x = " + lowerLeft.x + " " + "lowerLeft.y = "
+				+ lowerLeft.y);
 		Logger.Frontlog("lowerRight.x = " + lowerRight.x + " "
 				+ "lowerRight.y = " + lowerRight.y);
+	}
+
+	public void dispose() {
+		batch.dispose();
 	}
 }

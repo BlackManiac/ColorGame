@@ -73,6 +73,5 @@ public class GameAnimation implements InputProcessor{
 		return false;
 	}
 
-	
-	
+		
 }
