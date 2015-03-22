@@ -6,7 +6,7 @@ import java.util.ArrayList;
 /**
  * Object has the details of the last Level player by the player
  * 
- * @author KH1888
+ * @author vishnu.satis
  * 
  */
 public class PlayerProgress implements Serializable {

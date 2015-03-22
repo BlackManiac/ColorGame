@@ -16,9 +16,9 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 
 /**
- * Class is used for data tranfer B/W Game and file system
+ * Class is used for data transfer B/W Game and file system
  * 
- * @author Vishnu Satis
+ * @author vishnu.satis
  * 
  */
 public class Dataprovider implements Serializable {
