@@ -23,13 +23,15 @@ public class Block {
 	private int colIndex;
 
 	public Block(Vector2 position, float textureWidth,
-			float textureHieght, int color) {
+			float textureHieght, int color,int rowIndex,int colomnIndex) {
 		this.position = position;
 		this.color = color;
 		this.textureLocation = ImageMap.color.get(color);
 		this.texture = new Texture(Gdx.files.internal(textureLocation));
 		this.textureWidth = textureWidth;
 		this.textureHieght = textureHieght;
+		this.rowIndex = rowIndex;
+		this.colIndex = colomnIndex;
 	}
 
 	public void setTextureSize(float textureWidth, float textureHeight) {

@@ -3,6 +3,8 @@ package blackdevs.vishnu.model;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+import blackdevs.vishnu.Constants.StringMap;
+
 /**
  * Object has the details of the last Level player by the player
  * 
@@ -20,10 +22,15 @@ public class PlayerProgress implements Serializable {
 	 */
 	private static final long serialVersionUID = 638713945830967571L;
 	private String isColorComboFinished;
-	private String isColorSetFinished;
+	private String isColorSetFinished = StringMap.FALSE;
 	private ArrayList<Integer> LastColorSet = new ArrayList<>();
 	private ArrayList<ColorList> uiColorCombo = new ArrayList<>();
 	private int currentColorSetCount;
+	
+	@Override
+	public String toString(){
+		return ("isColorComboFinished ::" + isColorComboFinished + "\n isColorSetFinished :: " + isColorSetFinished +"\n currentColorSetCount :: " + currentColorSetCount);		
+	}
 
 	public ArrayList<ColorList> getUiColorCombo() {
 		return uiColorCombo;
@@ -31,11 +38,12 @@ public class PlayerProgress implements Serializable {
 
 	public PlayerProgress(String isColorComboFinished,
 			ArrayList<Integer> LastColorSet,
-			ArrayList<ColorList> uiColorCombo) {
+			ArrayList<ColorList> uiColorCombo,String isColorSetFinished) {
 		super();
 		this.isColorComboFinished = isColorComboFinished;
 		this.LastColorSet = LastColorSet;
 		this.uiColorCombo = uiColorCombo;
+		this.isColorSetFinished = isColorSetFinished;
 	}
 
 	public void setUiColorCombo(ArrayList<ColorList> uiColorCombo) {
@@ -46,6 +54,8 @@ public class PlayerProgress implements Serializable {
 		this.isColorComboFinished = progress.isColorComboFinished;
 		this.LastColorSet = progress.LastColorSet;
 		this.uiColorCombo = progress.uiColorCombo;
+		this.currentColorSetCount = progress.currentColorSetCount;
+		this.isColorSetFinished = progress.isColorSetFinished;
 	}
 
 	public String getIsColorComboFinished() {

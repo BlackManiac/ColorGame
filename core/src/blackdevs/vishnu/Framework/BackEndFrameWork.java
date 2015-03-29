@@ -18,23 +18,25 @@ import com.badlogic.gdx.Gdx;
  * @author vishnu.satis
  * 
  */
-public class BackEndFrameWork implements Serializable{
+public class BackEndFrameWork implements Serializable {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 8395969600962172297L;
 	private ArrayList<ColorList> colorMatrix = new ArrayList<>();
-	private ArrayList<Integer> currentColorSet;
+	public ArrayList<Integer> currentColorSet;
 	private static PlayerProgress playerProgress;
 	private ColorGameUtility colorGameUtility;
 	private int currentColorSetCount;
 	private int matrixSize;
+
 	public BackEndFrameWork(int matrixSize) {
 		super();
 		this.matrixSize = matrixSize;
 		createNextColorCombo();
-		//printUiColorCombo();
+		// printUiColorCombo();
 	}
+
 	public ArrayList<ColorList> getColorMatrix() {
 		return colorMatrix;
 	}
@@ -52,30 +54,41 @@ public class BackEndFrameWork implements Serializable{
 			playerProgress = new PlayerProgress(
 					(PlayerProgress) Dataprovider
 							.readData(FileMap.GAME_PROGRESS));
+			Logger.Backlog("Read from file : " + playerProgress.toString());
 			currentColorSet = new ArrayList<>(playerProgress.getLastColorSet());
 			currentColorSetCount = playerProgress.getCurrentColorSetCount();
 			if ((playerProgress.getIsColorComboFinished())
 					.equals(StringMap.TRUE)) {
 				if ((playerProgress.getIsColorSetFinished())
 						.equals(StringMap.TRUE)) {
+					Logger.Backlog("Both colorSet and colorCombo finished so generate both TTTT !!!!");
 					if (currentColorSetCount >= IntMap.COLOR_SET_MULTIPLE) {
+						Logger.Backlog("Going to generate new colorSet !!!");
 						colorGameUtility = new ColorGameUtility(matrixSize,
 								currentColorSet, StringMap.TRUE);
 					} else {
+						Logger.Backlog("Going to generate new colorSet (2) !!!");
 						colorGameUtility = new ColorGameUtility(matrixSize,
-								currentColorSet, StringMap.FALSE);
+								currentColorSet, StringMap.TRUE);
 					}
 					currentColorSet = colorGameUtility.getColorSet();
 					createUImatrix();
 					playerProgress
 							.setCurrentColorSetCount(IntMap.INITIALIZE_COLORSET);
 				} else {
+					Logger.Backlog("Unfinished colorSet count .. !!! generate a colorCombo return it");
 					createUImatrix();
 					currentColorSetCount++;
 					playerProgress
 							.setCurrentColorSetCount(currentColorSetCount);
 				}
+				playerProgress.setLastColorSet(currentColorSet);
+				playerProgress.setUiColorCombo(colorMatrix);
+				playerProgress.setIsColorComboFinished(StringMap.FALSE);
+				playerProgress.setIsColorSetFinished(StringMap.FALSE);
+				Dataprovider.saveData(playerProgress, FileMap.GAME_PROGRESS);
 			} else {
+				Logger.Backlog("The color combo was not finished so loading from the file and displaying it");
 				colorMatrix = playerProgress.getUiColorCombo();
 			}
 		} else {
@@ -86,13 +99,15 @@ public class BackEndFrameWork implements Serializable{
 					currentColorSet, StringMap.TRUE);
 			currentColorSet = colorGameUtility.getColorSet();
 			createUImatrix();
+			// Intializing the colorSetCount
 			playerProgress.setCurrentColorSetCount(IntMap.INITIALIZE_COLORSET);
+			playerProgress.setIsColorComboFinished(StringMap.FALSE);
+			playerProgress.setIsColorSetFinished(StringMap.FALSE);
+			playerProgress.setLastColorSet(currentColorSet);
+			playerProgress.setUiColorCombo(colorMatrix);
+			Logger.Backlog("EEEE :: "+playerProgress.toString());
+			Dataprovider.saveData(playerProgress, FileMap.GAME_PROGRESS);
 		}
-		playerProgress.setIsColorComboFinished(StringMap.FALSE);
-		playerProgress.setIsColorSetFinished(StringMap.FALSE);
-		playerProgress.setLastColorSet(currentColorSet);
-		playerProgress.setUiColorCombo(colorMatrix);
-		UpdateGameProgress(playerProgress.getIsColorComboFinished());
 	}
 
 	/**
@@ -108,7 +123,15 @@ public class BackEndFrameWork implements Serializable{
 		} else {
 			playerProgress.setIsColorSetFinished(StringMap.FALSE);
 		}
+		Logger.Backlog("Just before updating to file : "
+				+ playerProgress.toString());
 		Dataprovider.saveData(playerProgress, FileMap.GAME_PROGRESS);
+	}
+	
+	public void readPlayerProgress(){
+		PlayerProgress ply = new PlayerProgress((PlayerProgress) Dataprovider
+				.readData(FileMap.GAME_PROGRESS));
+		Logger.Backlog("red :: "+ ply.toString());
 	}
 
 	/**
@@ -119,11 +142,11 @@ public class BackEndFrameWork implements Serializable{
 		int randomColorIndex;
 		ArrayList<Integer> allColor = new ArrayList<>();
 		ArrayList<Integer> rowColor = new ArrayList<>();
-		Logger.Backlog("allColor"+"[");
+		Logger.Backlog("allColor" + "[");
 		for (int i = 0; i < currentColorSet.size(); i++) {
 			for (int j = 0; j < currentColorSet.get(i); j++) {
 				allColor.add(colornumber);
-				Logger.Backlog(colornumber+",");
+				Logger.Backlog(colornumber + ",");
 			}
 			colornumber++;
 		}
@@ -135,7 +158,8 @@ public class BackEndFrameWork implements Serializable{
 			}
 			Logger.Backlog(rowColor.toString());
 			colorMatrix.add(new ColorList(rowColor));
-			Logger.Backlog("uiColorCombo -->"+colorMatrix.get(i).getColorList().toString());
+			Logger.Backlog("uiColorCombo -->"
+					+ colorMatrix.get(i).getColorList().toString());
 			rowColor = new ArrayList<>();
 		}
 	}
@@ -145,17 +169,12 @@ public class BackEndFrameWork implements Serializable{
 		int randomNum = rand.nextInt((max - min) + 1) + min;
 		return randomNum;
 	}
-	
-/*	private void printUiColorCombo(){
-		ColorList rowCombo = new ColorList();
-		ArrayList<Integer> rowColor = new ArrayList<>();
-		for(int i=0; i< colorMatrix.size();i++){
-			rowCombo = colorMatrix.get(i);
-			rowColor = rowCombo.getColorList();
-			for(int j=0;j<rowColor.size();j++){
-				System.out.print(rowColor.get(j)+"  ");
-			}
-		System.out.println();	
-		}
-	}*/
+
+	/*
+	 * private void printUiColorCombo(){ ColorList rowCombo = new ColorList();
+	 * ArrayList<Integer> rowColor = new ArrayList<>(); for(int i=0; i<
+	 * colorMatrix.size();i++){ rowCombo = colorMatrix.get(i); rowColor =
+	 * rowCombo.getColorList(); for(int j=0;j<rowColor.size();j++){
+	 * System.out.print(rowColor.get(j)+"  "); } System.out.println(); } }
+	 */
 }

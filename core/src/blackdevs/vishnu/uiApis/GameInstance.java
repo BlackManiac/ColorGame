@@ -29,6 +29,14 @@ public class GameInstance {
 	private int colomnIndex = 0;
 	private BackEndFrameWork backEndGenerator = new BackEndFrameWork(
 			IntMap.MATRIX_SIZE);
+	public BackEndFrameWork getBackEndGenerator() {
+		return backEndGenerator;
+	}
+
+	public void setBackEndGenerator(BackEndFrameWork backEndGenerator) {
+		this.backEndGenerator = backEndGenerator;
+	}
+
 	private ArrayList<ColorList> colorMatrix;
 	private ArrayList<BlockList> blockMatrix = new ArrayList<>();
 
@@ -53,7 +61,7 @@ public class GameInstance {
 	/**
 	 * Generates Front end Block Matrix based on back end Colormatrix
 	 */
-	private void generateBlockMatrix() {
+	public void generateBlockMatrix() {
 		colorMatrix = backEndGenerator.getColorMatrix();
 		Iterator<?> backEndIterator = colorMatrix.iterator();
 		ColorList currentRow = null;
@@ -90,10 +98,12 @@ public class GameInstance {
 		blockpostion.y = (ColorGame.blockStartY
 				+ ((colomnIndex + 1) * ColorGame.blockWidth) + (colomnIndex * ColorGame.blockSpacing));
 		blockpostion.x = (ColorGame.blockStartX + (rowIndex * (ColorGame.blockWidth + ColorGame.blockSpacing)));
-		Logger.Frontlog(("(X,Y) = " + "(" + blockpostion.x + ","
-				+ blockpostion.y + ")"));
+		Logger.Frontlog(("{ (X,Y) = " + "(" + blockpostion.x + ","
+				+ blockpostion.y + ") , (r,c) : ("+rowIndex+","+colomnIndex+")}"));
 		Block block = new Block(blockpostion, ColorGame.blockWidth,
-				ColorGame.blockWidth, colorToSet);
+				ColorGame.blockWidth, colorToSet,rowIndex,colomnIndex);
 		return block;
 	}
+	
+
 }

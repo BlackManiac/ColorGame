@@ -40,7 +40,7 @@ public class ColorGame extends ApplicationAdapter {
 	public static Vector2 lowerRight;
 	public static boolean areMatricesSynced;
 
-	private GameInstance gameInstance;
+	public static GameInstance gameInstance;
 	public static GameInstanceController controller;
 	public static ArrayList<BlockList> f_blockMatrix;
 	public static ArrayList<ColorList> b_colorMatrix;
@@ -50,6 +50,19 @@ public class ColorGame extends ApplicationAdapter {
 	 */
 	@Override
 	public void create() {
+		gameStart();
+	}
+
+	@Override
+	public void render() {
+		Gdx.gl.glClearColor(1, 0, 1, 0);
+		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+		batch.begin();
+		GameDraw.drawBlocks();
+		batch.end();
+	}
+	
+	public static void gameStart(){
 		initializeCoordinates();
 		gameInstance = new GameInstance();
 		controller = new GameInstanceController();
@@ -61,18 +74,7 @@ public class ColorGame extends ApplicationAdapter {
 		Gdx.input.setInputProcessor(inputProcessor);
 	}
 
-	@Override
-	public void render() {
-		Gdx.gl.glClearColor(1, 0, 1, 0);
-		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-		if (Gdx.input.isTouched()) {
-		}
-		batch.begin();
-		GameDraw.drawBlocks();
-		batch.end();
-	}
-
-	private void initializeCoordinates() {
+	private static void initializeCoordinates() {
 		screenX = (float) Gdx.graphics.getWidth();
 		screenY = (float) Gdx.graphics.getHeight();
 		float drawingLength = screenX;

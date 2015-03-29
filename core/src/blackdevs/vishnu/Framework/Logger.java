@@ -37,4 +37,13 @@ public class Logger {
 		if (IntMap.CONTROL_LOG)
 			System.out.println("[CONTROL] : " + log);
 	}
+	public static void gameLog(String log) {
+		if (IntMap.GAME)
+			System.out.println("[GAME] : " + log);
+	}
+	public static void uiLog(String log) {
+		if (IntMap.GAME)
+			System.out.println("[UI] : " + log);
+	}
+	
 }

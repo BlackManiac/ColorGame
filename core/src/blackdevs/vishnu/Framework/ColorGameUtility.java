@@ -15,14 +15,14 @@ public class ColorGameUtility {
 	private ArrayList<Integer> colorSet;
 	private int matrixSize;
 	private int noOfColors;
-	private String GenerateNextLevel;
+	private String isNextTime;
 
-	public String getGenerateNextLevel() {
-		return GenerateNextLevel;
+	public String getisNextTime() {
+		return isNextTime;
 	}
 
-	public void setGenerateNextLevel(String generateNextLevel) {
-		GenerateNextLevel = generateNextLevel;
+	public void setisNextTime(String isNextTime) {
+		this.isNextTime = isNextTime;
 	}
 
 	public ColorGameUtility() {
@@ -30,11 +30,16 @@ public class ColorGameUtility {
 	}
 
 	public ColorGameUtility(int matrixSize, ArrayList<Integer> colorSet,
-			String GenerateNextLevel) {
+			String isNextTime) {
 		super();
+		Logger.Backlog("The ColoSet :" + colorSet.toString());
+		
+			Logger.Backlog("The ColoSet size :" + colorSet.size());
+			this.noOfColors = colorSet.size();
+		
 		this.colorSet = colorSet;
 		this.matrixSize = matrixSize;
-		this.GenerateNextLevel = GenerateNextLevel;
+		this.isNextTime = isNextTime;
 		createNextColorSet();
 		printColorSet();
 	}
@@ -60,16 +65,14 @@ public class ColorGameUtility {
 	 * created
 	 */
 	private void createNextColorSet() {
-		if (colorSet.size() <= 2) {
+		if (colorSet.size() < 2) {
 			noOfColors = 2;
-
 		} else {
-			if (GenerateNextLevel.equals(StringMap.TRUE)) {
+			if (isNextTime.equals(StringMap.TRUE)) {
+				Logger.Backlog("Generating the colorSet size for new ColorSet ... ");
 				noOfColors = colorSet.size() + 1;
-
 			} else {
 				noOfColors = colorSet.size();
-
 			}
 		}
 		generateColorSet();
@@ -87,11 +90,13 @@ public class ColorGameUtility {
 		} else {
 			max = matrixSize / 2 + 1;
 		}
+		Logger.Backlog("Generating the next colorSet MAX : "+max+"NO_OF_COLORS : "+ noOfColors);
 		for (int i = 0; i < (noOfColors - 1); i++) {
 			colorSet.add(generateRandom(1, max));
+			Logger.Backlog("Values added to ColorSet::" + colorSet.get(i));
 			colorSum = colorSum + colorSet.get(i);
 		}
-		if (matrixSize - colorSum > max) {
+		if (matrixSize - colorSum > max || (matrixSize - colorSum) <= 0) {
 			generateColorSet();
 		} else {
 			colorSet.add(matrixSize - colorSum);
